@@ -31,11 +31,10 @@ const getBombs = (array, number, max) => {
 };
 
 //* Creo una funzione gameOver per determinare se si ha vinto o perso in base a determinate condizioni
-
-function gameOver() {
-    if (bombs.includes(parseInt(this.innerText))) {
+const gameOver = (e) => {
+    if (bombs.includes(parseInt(e.target.innerText))) {
         statsElement.style.display = "block";
-        this.classList.add("bomb");
+        e.target.classList.add("bomb");
         statsElement.innerText = `Hai perso! Il tuo punteggio totale è: ${score}`;
     }
 
@@ -44,7 +43,7 @@ function gameOver() {
         statsElement.style.display = "block";
         statsElement.innerText = `Hai vinto! Il tuo punteggio totale è: ${score}`;
     }
-}
+};
 
 // Uso il metodo addEeventListener per generate tot celle al click del bottone play
 playButton.addEventListener("click", function () {
@@ -101,22 +100,7 @@ playButton.addEventListener("click", function () {
                 score += 1;
             }
 
-            gameOver();
-
-            /* Se l'utente clicca su un numero presente nell'array delle bombe, la cella diventa rossa
-
-            if (bombs.includes(parseInt(this.innerText))) {
-                statsElement.style.display = "block";
-                this.classList.add("bomb");
-                statsElement.innerText = `Hai perso! Il tuo punteggio totale è: ${score}`;
-            }
-
-            Se l'utente ha cliccato su tutte le celle "non bombe" ha vinto
-
-            if (score === cellsNumber - bombsNumber) {
-                statsElement.style.display = "block";
-                statsElement.innerText = `Hai vinto! Il tuo punteggio totale è: ${score}`;
-            } */
+            gameOver(event);
         });
     }
 });
