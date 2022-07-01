@@ -68,21 +68,25 @@ playButton.addEventListener("click", function () {
 
         boxElement.appendChild(cell);
 
-        // Al click sulla cella modifichiamo lo stile, la rendiamo non più cliccabile e aggiungiamo un punto allo score
-        // Se l'utente clicca su un numero presente nell'array delle bombe, la cella diventa rossa
         cell.addEventListener("click", function () {
-            if (
-                this.classList.contains("active") ||
-                this.classList.contains("bomb")
-            )
-                return;
+            // Se l'utente clicca su una cella già cliccata non succede nulla
+            if (this.classList.contains("active")) return;
+            // Se l'utente clicca su un numero presente nell'array delle bombe, la cella diventa rossa
             if (bombs.includes(parseInt(this.innerText))) {
                 this.classList.add("bomb");
                 console.log(`Hai perso! Il tuo punteggio totale è: ${score}`);
-            } else {
+            } // Se l'utente clicca su un numero non presente nell'array, la cella cambia di stile e si aumenta di +1 il punteggio
+            else {
                 this.classList.add("active");
                 score += 1;
                 console.log(`Punteggio: ${score}`);
+            }
+
+            // Se l'utente ha cliccato su tutte le celle "non bombe" ha vinto
+            if (score === cellsNumber - bombsNumber) {
+                console.log(
+                    `Complimenti! Hai vinto! Il tuo punteggio totale è: ${score}`
+                );
             }
         });
     }

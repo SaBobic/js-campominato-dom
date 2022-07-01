@@ -34,7 +34,7 @@ Se si, la cella diventa rossa (raccogliamo il punteggio e e scriviamo in console
 altrimenti diventa azzurra e dobbiamo incrementare il punteggio
 */
 
-//todo  MILESTONE 4
+// // MILESTONE 4
 /* 
 Quando l'utente clicca su una cella, e questa non è una bomba, dobbiamo controllare se il punteggio incrementato ha raggiunto il punteggio massimo perchè in quel caso la partita termina.
 Raccogliamo quindi il messaggio è scriviamo un messaggio appropriato. (Ma come stabiliamo quale sia il punteggio massimo?)
