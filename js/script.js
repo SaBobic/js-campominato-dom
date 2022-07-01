@@ -31,6 +31,9 @@ const getBombs = (array, number, max) => {
 
 // Uso il metodo addEeventListener per generate tot celle al click del bottone play
 playButton.addEventListener("click", function () {
+    // Cambio il testo del bottone in ricomincia
+    this.innerText = "Ricomincia";
+
     // Svuoto il box
     boxElement.innerHTML = "";
 
@@ -60,23 +63,27 @@ playButton.addEventListener("click", function () {
     console.log(bombs);
 
     // Riempio il box con le nuove celle
-
     for (let i = 1; i <= cellsNumber; i++) {
         cell = createCell(i, difficultyChoice);
 
         boxElement.appendChild(cell);
 
         // Al click sulla cella modifichiamo lo stile, la rendiamo non più cliccabile e aggiungiamo un punto allo score
+        // Se l'utente clicca su un numero presente nell'array delle bombe, la cella diventa rossa
         cell.addEventListener("click", function () {
-            if (this.classList.contains("active")) return;
-
-            this.classList.add("active");
-
-            score += 1;
-            console.log(`Punteggio: ${score}`);
+            if (
+                this.classList.contains("active") ||
+                this.classList.contains("bomb")
+            )
+                return;
+            if (bombs.includes(parseInt(this.innerText))) {
+                this.classList.add("bomb");
+                console.log(`Hai perso! Il tuo punteggio totale è: ${score}`);
+            } else {
+                this.classList.add("active");
+                score += 1;
+                console.log(`Punteggio: ${score}`);
+            }
         });
     }
-
-    // Cambio il testo del bottone in ricomincia
-    this.innerText = "Ricomincia";
 });

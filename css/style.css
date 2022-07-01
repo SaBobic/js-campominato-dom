@@ -103,3 +103,9 @@ nav {
     border: 1px solid #7f7f7f;
     color: #0000ff;
 }
+
+#box .cell.bomb {
+    cursor: not-allowed;
+    border: none;
+    background-color: #ff0000;
+}
