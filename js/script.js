@@ -45,9 +45,11 @@ playButton.addEventListener("click", function () {
 
         boxElement.appendChild(cell);
 
-        // Al click sulla cella, stampiamo il numero della cella cliccata in console, poi coloriamo la cella d'azzurro!
+        // Al click sulla cella, stampiamo il numero della cella cliccata in console, modifichiamo lo stile e la rendiamo non più cliccabile
         cell.addEventListener("click", function () {
-            this.classList.toggle("active");
+            if (this.classList.contains("active")) return;
+
+            this.classList.add("active");
             console.log(this.innerText);
         });
     }
