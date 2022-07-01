@@ -1,16 +1,17 @@
 // Dichiaro le variabili globali
 const playButton = document.getElementById("play-button");
 const boxElement = document.getElementById("box");
+const statsElement = document.getElementById("stats");
 let cell;
 let boxRows;
 let boxCols;
 let cellsNumber;
 let difficultyChoice;
-let score;
+let score = 0;
 const bombsNumber = 16;
 let bombs = [];
 
-// Creo una funzione che mi permetta di creare un div con classi cell e easy/medium/hard
+//* Creo una funzione che mi permetta di creare un div con classi cell e easy/medium/hard
 const createCell = (content, level) => {
     const cell = document.createElement("div");
     cell.classList.add("cell", level);
@@ -20,7 +21,7 @@ const createCell = (content, level) => {
     return cell;
 };
 
-// Creo una funzione che mi permetta di generare 16 numeri casuali da inserire nell'array "bombs"
+//* Creo una funzione che mi permetta di generare 16 numeri casuali da inserire nell'array "bombs"
 const getBombs = (array, number, max) => {
     while (array.length !== number) {
         const random = Math.floor(Math.random() * max + 1);
@@ -29,10 +30,29 @@ const getBombs = (array, number, max) => {
     return array;
 };
 
+//* Creo una funzione gameOver per determinare se si ha vinto o perso in base a determinate condizioni
+
+function gameOver() {
+    if (bombs.includes(parseInt(this.innerText))) {
+        statsElement.style.display = "block";
+        this.classList.add("bomb");
+        statsElement.innerText = `Hai perso! Il tuo punteggio totale è: ${score}`;
+    }
+
+    // Se l'utente ha cliccato su tutte le celle "non bombe" ha vinto
+    if (score === cellsNumber - bombsNumber) {
+        statsElement.style.display = "block";
+        statsElement.innerText = `Hai vinto! Il tuo punteggio totale è: ${score}`;
+    }
+}
+
 // Uso il metodo addEeventListener per generate tot celle al click del bottone play
 playButton.addEventListener("click", function () {
     // Cambio il testo del bottone in ricomincia
     this.innerText = "Ricomincia";
+
+    // Faccio sparire il box del risultato
+    statsElement.style.display = "none";
 
     // Svuoto il box
     boxElement.innerHTML = "";
@@ -60,7 +80,6 @@ playButton.addEventListener("click", function () {
     // Genero l'array di 16 bombe
     cellsNumber = boxRows * boxCols;
     getBombs(bombs, bombsNumber, cellsNumber);
-    console.log(bombs);
 
     // Riempio il box con le nuove celle
     for (let i = 1; i <= cellsNumber; i++) {
@@ -70,24 +89,34 @@ playButton.addEventListener("click", function () {
 
         cell.addEventListener("click", function () {
             // Se l'utente clicca su una cella già cliccata non succede nulla
-            if (this.classList.contains("active")) return;
-            // Se l'utente clicca su un numero presente nell'array delle bombe, la cella diventa rossa
-            if (bombs.includes(parseInt(this.innerText))) {
-                this.classList.add("bomb");
-                console.log(`Hai perso! Il tuo punteggio totale è: ${score}`);
-            } // Se l'utente clicca su un numero non presente nell'array, la cella cambia di stile e si aumenta di +1 il punteggio
-            else {
+            if (
+                this.classList.contains("active") ||
+                this.classList.contains("bomb")
+            )
+                return;
+
+            // Se l'utente clicca su un numero non presente nell'array, la cella cambia di stile e si aumenta di +1 il punteggio
+            if (!bombs.includes(parseInt(this.innerText))) {
                 this.classList.add("active");
                 score += 1;
-                console.log(`Punteggio: ${score}`);
             }
 
-            // Se l'utente ha cliccato su tutte le celle "non bombe" ha vinto
-            if (score === cellsNumber - bombsNumber) {
-                console.log(
-                    `Complimenti! Hai vinto! Il tuo punteggio totale è: ${score}`
-                );
+            gameOver();
+
+            /* Se l'utente clicca su un numero presente nell'array delle bombe, la cella diventa rossa
+
+            if (bombs.includes(parseInt(this.innerText))) {
+                statsElement.style.display = "block";
+                this.classList.add("bomb");
+                statsElement.innerText = `Hai perso! Il tuo punteggio totale è: ${score}`;
             }
+
+            Se l'utente ha cliccato su tutte le celle "non bombe" ha vinto
+
+            if (score === cellsNumber - bombsNumber) {
+                statsElement.style.display = "block";
+                statsElement.innerText = `Hai vinto! Il tuo punteggio totale è: ${score}`;
+            } */
         });
     }
 });
