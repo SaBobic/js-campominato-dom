@@ -7,6 +7,8 @@ let boxCols;
 let cellsNumber;
 let difficultyChoice;
 let score;
+const bombsNumber = 16;
+let bombs = [];
 
 // Creo una funzione che mi permetta di creare un div con classi cell e easy/medium/hard
 const createCell = (content, level) => {
@@ -15,8 +17,16 @@ const createCell = (content, level) => {
 
     // In ogni cella, deve comparire il numero corrispondente, in ordine da 1 a 100
     cell.innerText = content;
-
     return cell;
+};
+
+// Creo una funzione che mi permetta di generare 16 numeri casuali da inserire nell'array "bombs"
+const getBombs = (array, number, max) => {
+    while (array.length !== number) {
+        const random = Math.floor(Math.random() * max + 1);
+        if (!array.includes(random)) array.push(random);
+    }
+    return array;
 };
 
 // Uso il metodo addEeventListener per generate tot celle al click del bottone play
@@ -24,8 +34,11 @@ playButton.addEventListener("click", function () {
     // Svuoto il box
     boxElement.innerHTML = "";
 
-    // Arzzero il punteggio
+    // Azzero il punteggio
     score = 0;
+
+    // Svuoto l'array delle bombe
+    bombs = [];
 
     // Aggiungo l'istruzione if per modificare il numero di boxRows e boxCols in base alla difficoltà scelta dell'utente
     difficultyChoice = document.getElementById("difficulty").value;
@@ -41,8 +54,12 @@ playButton.addEventListener("click", function () {
             boxRows = boxCols = 7;
     }
 
-    // Riempio il box con le nuove celle
+    // Genero l'array di 16 bombe
     cellsNumber = boxRows * boxCols;
+    getBombs(bombs, bombsNumber, cellsNumber);
+    console.log(bombs);
+
+    // Riempio il box con le nuove celle
 
     for (let i = 1; i <= cellsNumber; i++) {
         cell = createCell(i, difficultyChoice);
