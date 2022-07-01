@@ -6,6 +6,7 @@ let boxRows;
 let boxCols;
 let cellsNumber;
 let difficultyChoice;
+let score;
 
 // Creo una funzione che mi permetta di creare un div con classi cell e easy/medium/hard
 const createCell = (content, level) => {
@@ -23,6 +24,9 @@ playButton.addEventListener("click", function () {
     // Svuoto il box
     boxElement.innerHTML = "";
 
+    // Arzzero il punteggio
+    score = 0;
+
     // Aggiungo l'istruzione if per modificare il numero di boxRows e boxCols in base alla difficoltà scelta dell'utente
     difficultyChoice = document.getElementById("difficulty").value;
 
@@ -37,20 +41,22 @@ playButton.addEventListener("click", function () {
             boxRows = boxCols = 7;
     }
 
+    // Riempio il box con le nuove celle
     cellsNumber = boxRows * boxCols;
 
-    // Riempio il box con le nuove celle
     for (let i = 1; i <= cellsNumber; i++) {
         cell = createCell(i, difficultyChoice);
 
         boxElement.appendChild(cell);
 
-        // Al click sulla cella, stampiamo il numero della cella cliccata in console, modifichiamo lo stile e la rendiamo non più cliccabile
+        // Al click sulla cella modifichiamo lo stile, la rendiamo non più cliccabile e aggiungiamo un punto allo score
         cell.addEventListener("click", function () {
             if (this.classList.contains("active")) return;
 
             this.classList.add("active");
-            console.log(this.innerText);
+
+            score += 1;
+            console.log(`Punteggio: ${score}`);
         });
     }
 
