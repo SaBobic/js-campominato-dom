@@ -14,12 +14,12 @@ Al termine della partita il software deve comunicare il punteggio, cioè il nume
 
 */
 
-//todo  MILESTONE 1
+// // MILESTONE 1
 /*
 Prepariamo "qualcosa" per tenere il punteggio dell'utente.
 Quando l'utente clicca su una cella, incrementiamo il punteggio.
 Se riusciamo, facciamo anche in modo da non poter più cliccare la stessa cella.
-*/
+ */
 
 //todo  MILESTONE 2
 /* 
