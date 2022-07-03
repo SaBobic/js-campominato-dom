@@ -36,7 +36,11 @@ const gameOver = (e) => {
     if (bombs.includes(parseInt(e.target.innerText))) {
         statsElement.style.display = "block";
 
-        e.target.classList.add("bomb");
+        for (let i = 0; i < bombs.length; i++) {
+            document
+                .querySelector(`[data-cell-number="${bombs[i]}"]`)
+                .classList.add("bomb");
+        }
 
         statsElement.innerText = `Hai perso! Il tuo punteggio totale è: ${score}`;
         isEnded = true;
@@ -95,7 +99,7 @@ playButton.addEventListener("click", function () {
     // Riempio il box con le nuove celle
     for (let i = 1; i <= cellsNumber; i++) {
         cell = createCell(i, difficultyChoice);
-
+        cell.dataset.cellNumber = i;
         boxElement.appendChild(cell);
 
         cell.addEventListener("click", function () {
