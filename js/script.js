@@ -39,8 +39,13 @@ const gameOver = (e) => {
         for (let i = 0; i < bombs.length; i++) {
             document
                 .querySelector(`[data-cell-number="${bombs[i]}"]`)
-                .classList.add("bomb");
+                .classList.add("bombs");
+            document.querySelector(
+                `[data-cell-number="${bombs[i]}"]`
+            ).innerText = "";
         }
+
+        e.target.classList.add("bomb");
 
         statsElement.innerText = `Hai perso! Il tuo punteggio totale è: ${score}`;
         isEnded = true;

@@ -96,6 +96,8 @@ nav {
     border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
 
     cursor: pointer;
+
+    position: relative;
 }
 
 #box .cell.easy {
@@ -119,8 +121,22 @@ nav {
     color: #0000ff;
 }
 
-#box .cell.bomb {
+#box .cell.bombs {
     cursor: not-allowed;
-    border: none;
+    border: 1px solid #7f7f7f;
+}
+
+#box .cell.bomb {
     background-color: #ff0000;
+}
+
+#box .cell.bombs:before {
+    content: "\f1e2";
+    color: #000;
+    font: var(--fa-font-solid);
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
