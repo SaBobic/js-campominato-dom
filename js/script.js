@@ -10,6 +10,7 @@ let difficultyChoice;
 let score = 0;
 const bombsNumber = 16;
 let bombs = [];
+let isEnded;
 
 //* Creo una funzione che mi permetta di creare un div con classi cell e easy/medium/hard
 const createCell = (content, level) => {
@@ -34,21 +35,30 @@ const getBombs = (array, number, max) => {
 const gameOver = (e) => {
     if (bombs.includes(parseInt(e.target.innerText))) {
         statsElement.style.display = "block";
+
         e.target.classList.add("bomb");
+
         statsElement.innerText = `Hai perso! Il tuo punteggio totale è: ${score}`;
+        isEnded = true;
     }
 
     // Se l'utente ha cliccato su tutte le celle "non bombe" ha vinto
     if (score === cellsNumber - bombsNumber) {
         statsElement.style.display = "block";
         statsElement.innerText = `Hai vinto! Il tuo punteggio totale è: ${score}`;
+        isEnded = true;
     }
+
+    return isEnded;
 };
 
 // Uso il metodo addEeventListener per generate tot celle al click del bottone play
 playButton.addEventListener("click", function () {
     // Cambio il testo del bottone in ricomincia
     this.innerText = "Ricomincia";
+
+    // Riporto a false la variabile d'appoggio che determina la fine della partita
+    isEnded = false;
 
     // Faccio sparire il box del risultato
     statsElement.style.display = "none";
@@ -80,6 +90,8 @@ playButton.addEventListener("click", function () {
     cellsNumber = boxRows * boxCols;
     getBombs(bombs, bombsNumber, cellsNumber);
 
+    console.log(bombs);
+
     // Riempio il box con le nuove celle
     for (let i = 1; i <= cellsNumber; i++) {
         cell = createCell(i, difficultyChoice);
@@ -87,20 +99,25 @@ playButton.addEventListener("click", function () {
         boxElement.appendChild(cell);
 
         cell.addEventListener("click", function () {
-            // Se l'utente clicca su una cella già cliccata non succede nulla
-            if (
-                this.classList.contains("active") ||
-                this.classList.contains("bomb")
-            )
+            // Utilizzo la variabile d'appoggio per vedere se la partita è finita (se così fosse, non è possibile cliccare i bottoni)
+            if (isEnded) {
                 return;
+            } else {
+                // Se l'utente clicca su una cella già cliccata non succede nulla
+                if (
+                    this.classList.contains("active") ||
+                    this.classList.contains("bomb")
+                )
+                    return;
 
-            // Se l'utente clicca su un numero non presente nell'array, la cella cambia di stile e si aumenta di +1 il punteggio
-            if (!bombs.includes(parseInt(this.innerText))) {
-                this.classList.add("active");
-                score += 1;
+                // Se l'utente clicca su un numero non presente nell'array, la cella cambia di stile e si aumenta di +1 il punteggio
+                if (!bombs.includes(parseInt(this.innerText))) {
+                    this.classList.add("active");
+                    score += 1;
+                }
+
+                gameOver(event);
             }
-
-            gameOver(event);
         });
     }
 });
